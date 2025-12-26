@@ -22,7 +22,7 @@ All components are completely free with no subscription costs:
 - **Graph DB**: NetworkX (in-memory)
 - **LLM**: HuggingFace models (local inference)
 - **Embeddings**: Sentence-Transformers
-- **Total Cost**: $0
+- **Total Cost**: 0
 
 ## 🏗️ Architecture
 
