@@ -12,11 +12,26 @@ echo ""
 # Check Python version
 echo "[1/7] Checking Python version..."
 if ! command -v python3 &> /dev/null; then
-    echo "ERROR: Python3 not found. Please install Python 3.9 or higher."
+    echo "ERROR: Python3 not found. Please install Python 3.9-3.12."
     exit 1
 fi
+
+# Check if version is in supported range (3.9 - 3.12)
+python_version=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+major=$(echo $python_version | cut -d. -f1)
+minor=$(echo $python_version | cut -d. -f2)
+
+if [ "$major" -ne 3 ] || [ "$minor" -lt 9 ] || [ "$minor" -gt 12 ]; then
+    echo "ERROR: Python $python_version is not supported!"
+    echo "This project requires Python 3.9, 3.10, 3.11, or 3.12"
+    echo "Reason: spaCy (required dependency) doesn't support Python 3.13+ yet"
+    echo ""
+    echo "Please install Python 3.12 from: https://www.python.org/downloads/"
+    exit 1
+fi
+
 python3 --version
-echo "✓ Python found"
+echo "✓ Python $python_version is supported"
 
 # Create virtual environment
 echo ""

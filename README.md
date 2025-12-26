@@ -37,9 +37,12 @@ User Query → Multi-Retriever System → Re-Ranking → LLM → Answer + Citati
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- **Python 3.9, 3.10, 3.11, or 3.12** (Python 3.13+ not yet supported due to spaCy compatibility)
 - 8GB+ RAM (16GB recommended for larger models)
 - Optional: GPU for faster LLM inference
+
+> [!IMPORTANT]
+> **Python Version Requirement**: This project requires Python 3.9-3.12. Python 3.13 and 3.14 are not yet supported because spaCy (a core dependency) relies on Pydantic v1, which doesn't support Python 3.13+. If you have Python 3.13/3.14, please install Python 3.12 alongside it.
 
 ### Installation
 

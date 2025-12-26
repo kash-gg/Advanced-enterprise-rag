@@ -10,21 +10,41 @@ Write-Host ""
 Write-Host "[1/7] Checking Python version..." -ForegroundColor Yellow
 $pythonVersion = python --version 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "ERROR: Python not found. Please install Python 3.9 or higher." -ForegroundColor Red
+    Write-Host "ERROR: Python not found. Please install Python 3.9-3.12." -ForegroundColor Red
     exit 1
 }
-Write-Host "Found: $pythonVersion" -ForegroundColor Green
+
+# Extract version number
+$versionMatch = $pythonVersion -match "Python (\d+)\.(\d+)"
+if ($versionMatch) {
+    $majorVersion = [int]$Matches[1]
+    $minorVersion = [int]$Matches[2]
+    
+    # Check if version is in supported range (3.9 - 3.12)
+    if ($majorVersion -ne 3 -or $minorVersion -lt 9 -or $minorVersion -gt 12) {
+        Write-Host "ERROR: Python $majorVersion.$minorVersion is not supported!" -ForegroundColor Red
+        Write-Host "This project requires Python 3.9, 3.10, 3.11, or 3.12" -ForegroundColor Red
+        Write-Host "Reason: spaCy (required dependency) doesn't support Python 3.13+ yet" -ForegroundColor Yellow
+        Write-Host "" -ForegroundColor Yellow
+        Write-Host "Please install Python 3.12 from: https://www.python.org/downloads/" -ForegroundColor Cyan
+        exit 1
+    }
+}
+
+Write-Host "Found: $pythonVersion ✓" -ForegroundColor Green
 
 # Create virtual environment
 Write-Host ""
 Write-Host "[2/7] Creating virtual environment..." -ForegroundColor Yellow
 if (Test-Path "venv") {
     Write-Host "Virtual environment already exists. Skipping..." -ForegroundColor Yellow
-} else {
+}
+else {
     python -m venv venv
     if ($LASTEXITCODE -eq 0) {
         Write-Host "Virtual environment created successfully!" -ForegroundColor Green
-    } else {
+    }
+    else {
         Write-Host "ERROR: Failed to create virtual environment." -ForegroundColor Red
         exit 1
     }
@@ -36,7 +56,8 @@ Write-Host "[3/7] Activating virtual environment..." -ForegroundColor Yellow
 & .\venv\Scripts\Activate.ps1
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Virtual environment activated!" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "ERROR: Failed to activate virtual environment." -ForegroundColor Red
     exit 1
 }
@@ -54,7 +75,8 @@ Write-Host "This may take several minutes..." -ForegroundColor Yellow
 pip install -r requirements.txt
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Dependencies installed successfully!" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "ERROR: Failed to install dependencies." -ForegroundColor Red
     exit 1
 }
@@ -65,7 +87,8 @@ Write-Host "[6/7] Downloading spaCy NER model..." -ForegroundColor Yellow
 python -m spacy download en_core_web_sm
 if ($LASTEXITCODE -eq 0) {
     Write-Host "spaCy model downloaded!" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "WARNING: Failed to download spaCy model. You can download it later." -ForegroundColor Yellow
 }
 
@@ -95,7 +118,8 @@ foreach ($dir in $directories) {
     if (-not (Test-Path $dir)) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
         Write-Host "Created: $dir" -ForegroundColor Green
-    } else {
+    }
+    else {
         Write-Host "Exists: $dir" -ForegroundColor Yellow
     }
 }
@@ -106,7 +130,8 @@ if (-not (Test-Path ".env")) {
     Copy-Item ".env.example" ".env"
     Write-Host "Created .env file from .env.example" -ForegroundColor Green
     Write-Host "Please review and update .env with your configuration." -ForegroundColor Yellow
-} else {
+}
+else {
     Write-Host ".env file already exists." -ForegroundColor Yellow
 }
 
