@@ -40,6 +40,21 @@ Pydantic v1 does NOT support Python ≥ 3.13 properly
    # Should show: Python 3.9.x, 3.10.x, 3.11.x, or 3.12.x
    ```
 
+4. **Managing Multiple Python Versions**:
+   
+   **Option A: Keep Both (Recommended)**
+   - No need to uninstall Python 3.13/3.14
+   - Use Python launcher to specify version:
+   ```powershell
+   # Windows - use Python 3.12 specifically
+   py -3.12 -m venv venv
+   ```
+   
+   **Option B: Uninstall Python 3.13/3.14**
+   - Windows: Settings → Apps → Installed apps → Search "Python 3.13" → Uninstall
+   - Or: Control Panel → Programs → Uninstall a program
+   - Then verify: `python --version` shows 3.12.x
+
 ### Why This Happens
 
 - spaCy uses Pydantic v1 for data validation

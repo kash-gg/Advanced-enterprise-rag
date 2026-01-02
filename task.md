@@ -13,12 +13,12 @@
 - [ ] Configure project structure and directories
 - [ ] Set up environment variables and configuration files
 
-## Phase 2: Data Ingestion Pipeline
-- [ ] Implement PDF document loader
-- [ ] Implement web scraper/URL loader
-- [ ] Implement CSV/database loader
-- [ ] Create unified document storage schema
-- [ ] Build document metadata extraction
+## Phase 2: Data Ingestion Pipeline ✅
+- [x] Implement PDF document loader
+- [x] Implement web scraper/URL loader
+- [x] Implement CSV/database loader
+- [x] Create unified document storage schema
+- [x] Build document metadata extraction
 
 ## Phase 3: Document Processing
 - [ ] Implement text chunking strategies

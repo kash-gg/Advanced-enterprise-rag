@@ -154,13 +154,19 @@ Advanced-enterprise-rag/
 - [x] Project structure
 - [x] Configuration management
 
-### Phase 2: Data Ingestion Pipeline 🚧
-- [ ] PDF loader
-- [ ] Web scraper
-- [ ] CSV/database loader
-- [ ] Document storage
+### Phase 2: Data Ingestion Pipeline ✅
+- [x] PDF loader with metadata extraction
+- [x] Web scraper with content extraction
+- [x] CSV/database loader
+- [x] Unified document storage system (SQLite)
 
-### Phase 3-9: Coming Soon
+### Phase 3: Document Processing 🔜
+- [ ] Text chunking strategies
+- [ ] Text cleaning and preprocessing
+- [ ] Metadata tagging system
+- [ ] Document quality checks
+
+### Phase 4-9: Coming Soon
 See [task.md](task.md) for detailed roadmap.
 
 ## 🧪 Testing
