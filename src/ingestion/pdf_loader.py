@@ -9,7 +9,6 @@ import logging
 from datetime import datetime
 
 from llama_index.core import Document
-from llama_index.core.node_parser import SimpleFileNodeParser
 from llama_index.readers.file import PDFReader
 from pypdf import PdfReader
 
