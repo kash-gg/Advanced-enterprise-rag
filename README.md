@@ -148,25 +148,37 @@ Advanced-enterprise-rag/
 
 ## 🛠️ Development Status
 
-### Phase 1: Project Setup & Infrastructure ✅
-- [x] Virtual environment setup
-- [x] Dependencies installation
-- [x] Project structure
-- [x] Configuration management
+## 🛠️ Work Completed & Data Flow
 
-### Phase 2: Data Ingestion Pipeline ✅
-- [x] PDF loader with metadata extraction
-- [x] Web scraper with content extraction
-- [x] CSV/database loader
-- [x] Unified document storage system (SQLite)
+So far, we have successfully implemented the first 4 phases of our RAG architecture. Here is the step-by-step flow of how data moves through the completed components:
 
-### Phase 3: Document Processing 🔜
-- [ ] Text chunking strategies
-- [ ] Text cleaning and preprocessing
-- [ ] Metadata tagging system
-- [ ] Document quality checks
+### 1. Data Ingestion Pipeline (`src/ingestion/`) ✅
+Data enters the system through our ingestion module, which normalizes different formats into a unified `Document` schema.
+- **PDF Loader**: Extracts text and metadata (page numbers, titles) from PDF documents using `pypdf`.
+- **Web Loader**: Scrapes and parses web URLs, stripping out boilerplate HTML (headers, footers) to extract the main content using `BeautifulSoup4`.
+- **CSV Loader**: Ingests structured tabular data using `pandas`, allowing row-by-row conversion into searchable text documents.
+- **Document Store**: A centralized database (SQLite-based) that tracks document origins, metadata, and IDs.
 
-### Phase 4-9: Coming Soon
+### 2. Document Processing (`src/processing/`) ✅
+Once ingested, raw documents are processed to optimize them for retrieval.
+- **Text Cleaner**: Normalizes text, removes excessive whitespace, fixes encoding issues, and standardizes formats.
+- **Chunker**: Splits large documents into smaller, semantically meaningful pieces. Supports fixed-size chunking with overlaps, sentence-aware chunking, and semantic chunking.
+- **Metadata Tagger**: Enriches chunks by extracting keywords, generating summaries, and identifying document types.
+- **Quality Checker**: Validates chunks to ensure they meet minimum quality thresholds (e.g., adequate length, low proportion of special characters) before indexing.
+
+### 3. Multi-Index System (`src/indexing/`) ✅
+Processed chunks are stored in three parallel, specialized indices to support diverse query types.
+- **Vector Index (FAISS)**: Generates dense embeddings (using `sentence-transformers`) for chunks and indexes them for fast, scalable semantic similarity search. Runs efficiently on CPU.
+- **Sentence-Window Index**: Stores individual sentences alongside their surrounding context (e.g., 3 sentences before/after). This allows the retriever to match highly specific sentences while passing the broader context to the LLM.
+- **Graph Index (NetworkX)**: A knowledge graph built by extracting entities and relationships using NLP (`spaCy`). It supports complex, multi-hop reasoning and entity connection queries.
+
+### Phase 5-9: Pending
+- Phase 5: Multi-Retriever System & Fusion
+- Phase 6: Re-Ranking & LLM Integration
+- Phase 7: Streamlit Web Interface
+- Phase 8: Testing & Optimization
+- Phase 9: Deployment
+
 See [task.md](task.md) for detailed roadmap.
 
 ## 🧪 Testing
